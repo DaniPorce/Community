@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import jsPDF from 'jspdf';
+import * as XLSX from 'xlsx';
 
 const CreateEucaristia: React.FC = () => {
   const [formData, setFormData] = useState({
     primaLetturaRiferimenti: '',
+    primaLetturaAmmonizione: '',
     primaLetturaNome: '',
     secondaLetturaRiferimenti: '',
+    secondaLetturaAmmonizione: '',
     secondaLetturaNome: '',
     vangeloRiferimenti: '',
+    vangeloAmmonizione: '',
     vangeloNome: '',
     ambientaleNome: '',
     preghiere: ''
@@ -22,25 +25,26 @@ const CreateEucaristia: React.FC = () => {
     });
   };
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text('Eucaristia', 10, 10);
-    doc.setFontSize(14);
-    doc.text('Ambientale:', 10, 20);
-    doc.text(formData.ambientaleNome, 50, 20);
-    doc.text('Prima Lettura:', 10, 30);
-    doc.text(`Riferimenti: ${formData.primaLetturaRiferimenti}`, 50, 30);
-    doc.text(`Nome: ${formData.primaLetturaNome}`, 50, 40);
-    doc.text('Seconda Lettura:', 10, 50);
-    doc.text(`Riferimenti: ${formData.secondaLetturaRiferimenti}`, 50, 50);
-    doc.text(`Nome: ${formData.secondaLetturaNome}`, 50, 60);
-    doc.text('Vangelo:', 10, 70);
-    doc.text(`Riferimenti: ${formData.vangeloRiferimenti}`, 50, 70);
-    doc.text(`Nome: ${formData.vangeloNome}`, 50, 80);
-    doc.text('Preghiere:', 10, 90);
-    doc.text(formData.preghiere, 50, 90);
-    doc.save('eucaristia.pdf');
+  const generateExcel = () => {
+    const data = [
+      ['Eucaristia'],
+      ['Ambientale:', formData.ambientaleNome],
+      ['Prima Lettura:', formData.primaLetturaRiferimenti],
+      ['Ammonizione:', formData.primaLetturaAmmonizione],
+      ['Nome Lettura:', formData.primaLetturaNome],
+      ['Seconda Lettura:', formData.secondaLetturaRiferimenti],
+      ['Ammonizione:', formData.secondaLetturaAmmonizione],
+      ['Nome Lettura:', formData.secondaLetturaNome],
+      ['Vangelo:', formData.vangeloRiferimenti],
+      ['Ammonizione:', formData.vangeloAmmonizione],
+      ['Nome Lettura:', formData.vangeloNome],
+      ['Preghiere:', formData.preghiere],
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Eucaristia');
+    XLSX.writeFile(wb, 'eucaristia.xlsx');
   };
 
   return (
@@ -71,6 +75,14 @@ const CreateEucaristia: React.FC = () => {
               />
               <Form.Control
                 type="text"
+                name="primaLetturaAmmonizione"
+                value={formData.primaLetturaAmmonizione}
+                onChange={handleChange}
+                placeholder="Ammonizione"
+                className="mt-2"
+              />
+              <Form.Control
+                type="text"
                 name="primaLetturaNome"
                 value={formData.primaLetturaNome}
                 onChange={handleChange}
@@ -87,6 +99,14 @@ const CreateEucaristia: React.FC = () => {
                 value={formData.secondaLetturaRiferimenti}
                 onChange={handleChange}
                 placeholder="Riferimenti seconda lettura"
+              />
+              <Form.Control
+                type="text"
+                name="secondaLetturaAmmonizione"
+                value={formData.secondaLetturaAmmonizione}
+                onChange={handleChange}
+                placeholder="Ammonizione"
+                className="mt-2"
               />
               <Form.Control
                 type="text"
@@ -109,6 +129,14 @@ const CreateEucaristia: React.FC = () => {
               />
               <Form.Control
                 type="text"
+                name="vangeloAmmonizione"
+                value={formData.vangeloAmmonizione}
+                onChange={handleChange}
+                placeholder="Ammonizione"
+                className="mt-2"
+              />
+              <Form.Control
+                type="text"
                 name="vangeloNome"
                 value={formData.vangeloNome}
                 onChange={handleChange}
@@ -128,8 +156,8 @@ const CreateEucaristia: React.FC = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" className="w-100 mt-4" onClick={generatePDF}>
-              Genera PDF
+            <Button variant="primary" className="w-100 mt-4" onClick={generateExcel}>
+              Genera Excel
             </Button>
           </Form>
         </Col>
