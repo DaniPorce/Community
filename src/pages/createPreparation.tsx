@@ -10,6 +10,9 @@ const CreatePreparation: React.FC = () => {
     secondaLetturaRiferimenti: '',
     secondaLetturaAmmonizione: '',
     secondaLetturaNome: '',
+    terzaLetturaRiferimenti: '',
+    terzaLetturaAmmonizione: '',
+    terzaLetturaNome: '',
     vangeloRiferimenti: '',
     vangeloAmmonizione: '',
     vangeloNome: '',
@@ -34,6 +37,9 @@ const CreatePreparation: React.FC = () => {
       ['Seconda Lettura:', formData.secondaLetturaRiferimenti],
       ['Ammonizione:', formData.secondaLetturaAmmonizione],
       ['Nome Lettura:', formData.secondaLetturaNome],
+      ['Terza Lettura:', formData.terzaLetturaRiferimenti],
+      ['Ammonizione:', formData.terzaLetturaAmmonizione],
+      ['Nome Lettura:', formData.terzaLetturaNome],
       ['Vangelo:', formData.vangeloRiferimenti],
       ['Ammonizione:', formData.vangeloAmmonizione],
       ['Nome Lettura:', formData.vangeloNome],
@@ -111,6 +117,33 @@ const CreatePreparation: React.FC = () => {
                   type="text"
                   name="secondaLetturaNome"
                   value={formData.secondaLetturaNome}
+                  onChange={handleChange}
+                  placeholder="Chi legge"
+                  className="mt-2"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="terzaLettura" className="mt-3">
+                <Form.Label>Terza Lettura</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="terzaLetturaRiferimenti"
+                  value={formData.terzaLetturaRiferimenti}
+                  onChange={handleChange}
+                  placeholder="Riferimenti terza lettura"
+                />
+                <Form.Control
+                  type="text"
+                  name="terzaLetturaAmmonizione"
+                  value={formData.terzaLetturaAmmonizione}
+                  onChange={handleChange}
+                  placeholder="Ammonizione"
+                  className="mt-2"
+                />
+                <Form.Control
+                  type="text"
+                  name="terzaLetturaNome"
+                  value={formData.terzaLetturaNome}
                   onChange={handleChange}
                   placeholder="Chi legge"
                   className="mt-2"
